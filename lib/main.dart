@@ -37,6 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String title = "Title";
   String author = "Author";
+  String bookCoverURL =
+      "https://firebasestorage.googleapis.com/v0/b/novela-bbd01.appspot.com/o/Library%2FBookCover%2FHarryPotter%2Fchamber_of_secrets.jpg?alt=media&token=08359d7d-31cd-43e3-ac23-d0f42ce691a7";
 
   void _incrementCounter() {
     setState(() {
@@ -62,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       title = bookList[0].title;
       author = bookList[0].authors[0];
+      bookCoverURL = bookList[0].urlLink ?? bookCoverURL;
     });
   }
 
@@ -75,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.network(bookCoverURL),
             Text(
               title,
             ),
