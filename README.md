@@ -1,4 +1,4 @@
-# judge_a_book_by_its_cover
+# Judge a Book by it's Cover
 
 A flutter project, that lets users judge a book by it's cover.
 
