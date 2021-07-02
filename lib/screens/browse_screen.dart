@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
+import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
 
 class BrowseScreen extends StatefulWidget {
   static const String id = 'browse_screen';
@@ -74,27 +75,11 @@ class _BrowseScreenState extends State<BrowseScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, BookInfoScreen.id,
-                    arguments: bookList[0]);
-              },
-              child: Image.network(
-                bookCoverURL,
-                height: (MediaQuery.of(context).size.height * 6) / 10,
-                width: (MediaQuery.of(context).size.width * 9) / 10,
-                fit: BoxFit.fill,
-                loadingBuilder: (context, child, progress) {
-                  return progress == null
-                      ? child
-                      : LinearProgressIndicator(
-                          value: (progress.cumulativeBytesLoaded.toDouble() /
-                              progress.expectedTotalBytes!.toDouble()),
-                          backgroundColor: Colors.grey,
-                        );
-                },
-              ),
-            ),
+            bookList.length == 0
+                ? Image.asset('images/leaf.png')
+                : BookCover(
+                    book: bookList[0],
+                  ),
             Text(
               title,
               style: Theme.of(context).textTheme.headline4,
@@ -103,17 +88,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
               author,
               style: Theme.of(context).textTheme.headline6,
             ),
-            // RawMaterialButton(
-            //   onPressed: () {},
-            //   fillColor: Colors.white,
-            //   child: Icon(
-            //     Icons.bookmark_add,
-            //     color: Colors.green,
-            //     size: MediaQuery.of(context).size.width / 10,
-            //   ),
-            //   padding: EdgeInsets.all(MediaQuery.of(context).size.width / 100),
-            //   shape: CircleBorder(),
-            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
