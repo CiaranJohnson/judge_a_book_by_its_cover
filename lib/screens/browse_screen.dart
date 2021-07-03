@@ -78,8 +78,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
 
   void _optionSelected(int index) {
     if (index == 0) {
-      print('Not interested in $title');
-      _nextBook();
     } else if (index == 1) {
       print('$title add to wishlist!');
       _nextBook();
@@ -88,96 +86,94 @@ class _BrowseScreenState extends State<BrowseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Wishlist(),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: Image.asset('images/leaf.png'),
-          title: Text(
-            kAppBarTitle,
-            style: TextStyle(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: Image.asset('images/leaf.png'),
+        title: Text(
+          kAppBarTitle,
+          style: TextStyle(
+            color: Colors.blue,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MaterialButton(
+              onPressed: () => Navigator.pushNamed(context, WishlistScreen.id),
               color: Colors.blue,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.bookmark,
+                size: 30.0,
+              ),
+              padding: EdgeInsets.all(2.0),
+              shape: CircleBorder(),
             ),
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, WishlistScreen.id),
-                color: Colors.blue,
-                textColor: Colors.white,
-                child: Icon(
-                  Icons.bookmark,
-                  size: 30.0,
+        ],
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: 30.0,
+          vertical: 10.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    BookInfoScreen.id,
+                    arguments: bookList[0],
+                  );
+                },
+                onPanUpdate: (details) {
+                  if (details.delta.dx > 0) {
+                    _nextBook();
+                  } else if (details.delta.dx < 0) {
+                    _nextBook();
+                  }
+                },
+                child: BookCover(
+                  bookCoverURL: bookCoverURL,
+                  height: (MediaQuery.of(context).size.height * 5) / 10,
+                  width: (MediaQuery.of(context).size.width * 7) / 10,
                 ),
-                padding: EdgeInsets.all(2.0),
-                shape: CircleBorder(),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                "$kBy $author",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 20.0, color: Colors.blue),
               ),
             ),
           ],
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 30.0,
-            vertical: 10.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      BookInfoScreen.id,
-                      arguments: bookList[0],
-                    );
-                  },
-                  onPanUpdate: (details) {
-                    if (details.delta.dx > 0) {
-                      _nextBook();
-                    } else if (details.delta.dx < 0) {
-                      _nextBook();
-                    }
-                  },
-                  child: BookCover(
-                    bookCoverURL: bookCoverURL,
-                    height: (MediaQuery.of(context).size.height * 5) / 10,
-                    width: (MediaQuery.of(context).size.width * 7) / 10,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Text(
-                  "$kBy $author",
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 20.0, color: Colors.blue),
-                ),
-              ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
+      ),
+      bottomNavigationBar: Consumer<Wishlist>(
+        builder: (context, wishlist, child) => BottomNavigationBar(
           selectedItemColor: Colors.red,
           unselectedItemColor: Colors.green,
           selectedFontSize: MediaQuery.of(context).size.height / 55,
@@ -198,7 +194,16 @@ class _BrowseScreenState extends State<BrowseScreen> {
               label: kAdd,
             ),
           ],
-          onTap: _optionSelected,
+          onTap: (index) {
+            if (index == 0) {
+              print('Not interested in $title');
+              _nextBook();
+            } else if (index == 1) {
+              wishlist.addBook(bookList[0]);
+              print('$title add to wishlist!');
+              _nextBook();
+            }
+          },
         ),
       ),
     );

@@ -3,9 +3,17 @@ import 'package:judge_a_book_by_its_cover/components/book.dart';
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
+import 'package:provider/provider.dart';
+
+import 'components/wishlist.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => Wishlist(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
