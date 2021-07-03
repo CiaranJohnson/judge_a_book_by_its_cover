@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:judge_a_book_by_its_cover/constants.dart';
 import 'dart:convert';
 
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
@@ -88,7 +89,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
         backgroundColor: Colors.white,
         leading: Image.asset('images/leaf.png'),
         title: Text(
-          'Judge a Book',
+          kAppBarTitle,
           style: TextStyle(
             color: Colors.blue,
           ),
@@ -160,7 +161,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
             Container(
               width: MediaQuery.of(context).size.width,
               child: Text(
-                "By $author",
+                "$kBy $author",
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 20.0, color: Colors.blue),
@@ -170,24 +171,24 @@ class _BrowseScreenState extends State<BrowseScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.green,
+        selectedFontSize: MediaQuery.of(context).size.height / 55,
+        unselectedFontSize: MediaQuery.of(context).size.height / 55,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Icons.close_rounded,
               color: Colors.red,
             ),
-            title: Text(
-              'Remove',
-            ),
+            label: kRemove,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.bookmark_add,
               color: Colors.green,
             ),
-            title: Text(
-              'Add',
-            ),
+            label: kAdd,
           ),
         ],
         onTap: _optionSelected,

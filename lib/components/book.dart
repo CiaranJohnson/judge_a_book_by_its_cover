@@ -1,12 +1,13 @@
 class Book {
+  // TODO: Think about changing these variables to private
   final String id;
   final String title;
   final String authors;
 
-  String? publisher;
-  String categories;
-  String description;
-  String urlLink;
+  final String? publisher;
+  final String categories;
+  final String description;
+  final String urlLink;
 
   Book({
     required this.id,
@@ -34,6 +35,7 @@ class Book {
 
     String urlLink;
 
+    // Find the best possible image url to request when showing the book cover
     if (volumeInfo.containsKey("imageLinks")) {
       Map<String, dynamic> imageMap = volumeInfo["imageLinks"];
       if (imageMap.containsKey("large")) {
@@ -67,15 +69,21 @@ class Book {
       return outputString;
     }
 
+    // Correctly format the list of authors as a single string
+    // e.g. Author 1, Author 2, ... and Author N
     List<dynamic> authorsDynamicList = volumeInfo["authors"];
     String authors = _formatDynamicListAsString(authorsDynamicList);
 
-    String categories = "NA";
+    // Extract the books Categories from the
+    String categories = "N/A";
     if (volumeInfo.containsKey("categories")) {
+      // Correctly format the list of categories as a single string
+      // e.g. Category 1, Category 2, ... and Category N
       List<dynamic> categoriesDynamicList = volumeInfo["categories"];
       categories = _formatDynamicListAsString(categoriesDynamicList);
     }
 
+    // Extract the book's description if it has one
     String description = volumeInfo['description'] ?? "NA";
 
     return Book(

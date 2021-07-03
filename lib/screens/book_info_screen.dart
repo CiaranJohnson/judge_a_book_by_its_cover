@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
+import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
+
+import '../constants.dart';
 
 class BookInfoScreen extends StatefulWidget {
   static const String id = "book_info_screen";
@@ -18,7 +21,36 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Judge a Book'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.blueGrey,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          kAppBarTitle,
+          style: TextStyle(
+            color: Colors.blue,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MaterialButton(
+              onPressed: () => Navigator.pushNamed(context, WishlistScreen.id),
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.bookmark,
+                size: 30.0,
+              ),
+              padding: EdgeInsets.all(2.0),
+              shape: CircleBorder(),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -48,7 +80,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                       children: [
                         RichText(
                           text: TextSpan(
-                            text: 'Title: ',
+                            text: kTitleColon,
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -68,7 +100,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: 'Authors: ',
+                            text: kAuthorColon,
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -97,7 +129,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
               width: MediaQuery.of(context).size.width,
               child: RichText(
                 text: TextSpan(
-                  text: 'Categories: ',
+                  text: kCategoriesColon,
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
@@ -118,7 +150,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
               width: MediaQuery.of(context).size.width,
               child: RichText(
                 text: TextSpan(
-                  text: 'Description: ',
+                  text: kDescriptionColon,
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
@@ -136,6 +168,28 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.green,
+        selectedFontSize: MediaQuery.of(context).size.height / 55,
+        unselectedFontSize: MediaQuery.of(context).size.height / 55,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.close_rounded,
+              color: Colors.red,
+            ),
+            label: kRemove,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.bookmark_add,
+              color: Colors.green,
+            ),
+            label: kAdd,
+          ),
+        ],
       ),
     );
   }
