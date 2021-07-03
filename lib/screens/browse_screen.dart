@@ -21,8 +21,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
 
   String title = "Title";
   String author = "Author";
-  String bookCoverURL =
-      "https://firebasestorage.googleapis.com/v0/b/novela-bbd01.appspot.com/o/Library%2FBookCover%2FHarryPotter%2Fchamber_of_secrets.jpg?alt=media&token=08359d7d-31cd-43e3-ac23-d0f42ce691a7";
+  String bookCoverURL = 'images/leaf.png';
 
   @override
   void initState() {
@@ -57,8 +56,8 @@ class _BrowseScreenState extends State<BrowseScreen> {
   void updateUI() {
     setState(() {
       title = bookList[0].title;
-      author = bookList[0].authors[0];
-      bookCoverURL = bookList[0].urlLink ?? bookCoverURL;
+      author = bookList[0].authors;
+      bookCoverURL = bookList[0].urlLink;
     });
   }
 
@@ -75,11 +74,27 @@ class _BrowseScreenState extends State<BrowseScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            bookList.length == 0
-                ? Image.asset('images/leaf.png')
-                : BookCover(
-                    book: bookList[0],
-                  ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  BookInfoScreen.id,
+                  arguments: bookList[0],
+                );
+              },
+              onPanUpdate: (details) {
+                if (details.delta.dx > 0) {
+                  print('Swipe Right');
+                } else if (details.delta.dx < 0) {
+                  print('Swipe Left');
+                }
+              },
+              child: BookCover(
+                bookCoverURL: bookCoverURL,
+                height: (MediaQuery.of(context).size.height * 6) / 10,
+                width: (MediaQuery.of(context).size.width * 9) / 10,
+              ),
+            ),
             Text(
               title,
               style: Theme.of(context).textTheme.headline4,

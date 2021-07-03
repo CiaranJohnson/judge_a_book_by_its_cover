@@ -1,20 +1,20 @@
 class Book {
   final String id;
   final String title;
-  final List<String> authors;
+  final String authors;
 
   String? publisher;
   List<dynamic>? categories;
   String? description;
-  String? urlLink;
+  String urlLink;
 
   Book({
     required this.id,
     required this.title,
     required this.authors,
+    required this.urlLink,
     this.publisher,
     this.categories,
-    this.urlLink,
     this.description = "NA",
   });
 
@@ -22,7 +22,7 @@ class Book {
     return this.title;
   }
 
-  List<dynamic> getAuthors() {
+  String getAuthors() {
     return this.authors;
   }
 
@@ -32,7 +32,7 @@ class Book {
 
     print(volumeInfo);
 
-    String? urlLink;
+    String urlLink;
 
     if (volumeInfo.containsKey("imageLinks")) {
       if (volumeInfo["imageLinks"].containsKey("thumbnail")) {
@@ -40,26 +40,35 @@ class Book {
       } else if (volumeInfo["imageLinks"].contains("smallThumbnail")) {
         urlLink = volumeInfo["imageLinks"]["smallThumbnail"];
       } else {
-        urlLink = null;
+        urlLink = 'images/leaf.png';
       }
     } else {
-      urlLink = null;
+      urlLink = 'images/leaf.png';
     }
 
-    List<String> authorsStringType = [];
-    List<dynamic> authorsDynamicType = volumeInfo["authors"];
-    authorsDynamicType.forEach((author) {
-      print(author.toString());
-      authorsStringType.add(author.toString());
-    });
+    String authors = "";
+    List<dynamic> authorsDynamicList = volumeInfo["authors"];
+    for (int i = 0; i < authorsDynamicList.length; i++) {
+      if (i == 0) {
+        authors = authorsDynamicList[0].toString();
+      } else if (i > 0 && i < (authorsDynamicList.length - 1)) {
+        authors += ", ${authorsDynamicList[i].toString()}";
+      } else if (i == (authorsDynamicList.length - 1)) {
+        authors += " and ${authorsDynamicList[i].toString()}";
+      }
+    }
+    // authorsDynamicType.forEach((author) {
+    //   print(author.toString());
+    //   authorsStringType.add(author.toString());
+    // });
 
-    print(authorsStringType);
+    // print(authorsStringType);
 
     return Book(
         id: id,
         title: volumeInfo["title"],
         publisher: volumeInfo["publisher"],
-        authors: authorsStringType,
+        authors: authors,
         categories: volumeInfo["categories"],
         urlLink: urlLink);
   }

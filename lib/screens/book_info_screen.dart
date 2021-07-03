@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
+import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
 
 class BookInfoScreen extends StatefulWidget {
@@ -19,18 +20,25 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
       appBar: AppBar(
         title: Text('Judge a Book'),
       ),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 20.0,
+          horizontal: 10.0,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, BookInfoScreen.id);
+                Navigator.pushNamed(context, BrowseScreen.id);
               },
               child: BookCover(
-                book: book,
+                bookCoverURL: book.urlLink,
+                height: (MediaQuery.of(context).size.height * 2) / 10,
+                width: (MediaQuery.of(context).size.height * 1.5) / 10,
               ),
             ),
+            Text('Title: ${book.title}'),
+            Text('Authors: ${book.authors}'),
           ],
         ),
       ),
