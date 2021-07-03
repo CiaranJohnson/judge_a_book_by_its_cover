@@ -35,10 +35,17 @@ class Book {
     String urlLink;
 
     if (volumeInfo.containsKey("imageLinks")) {
-      if (volumeInfo["imageLinks"].containsKey("thumbnail")) {
-        urlLink = volumeInfo["imageLinks"]["thumbnail"];
-      } else if (volumeInfo["imageLinks"].contains("smallThumbnail")) {
-        urlLink = volumeInfo["imageLinks"]["smallThumbnail"];
+      Map<String, dynamic> imageMap = volumeInfo["imageLinks"];
+      if (imageMap.containsKey("large")) {
+        urlLink = imageMap["large"];
+      } else if (imageMap.containsKey("medium")) {
+        urlLink = imageMap["medium"];
+      } else if (imageMap.containsKey("small")) {
+        urlLink = imageMap["small"];
+      } else if (imageMap.containsKey("thumbnail")) {
+        urlLink = imageMap["thumbnail"];
+      } else if (imageMap.containsKey("smallThumbnail")) {
+        urlLink = imageMap["smallThumbnail"];
       } else {
         urlLink = 'images/leaf.png';
       }
