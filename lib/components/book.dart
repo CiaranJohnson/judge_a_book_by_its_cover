@@ -4,8 +4,8 @@ class Book {
   final String authors;
 
   String? publisher;
-  List<dynamic>? categories;
-  String? description;
+  String categories;
+  String description;
   String urlLink;
 
   Book({
@@ -13,9 +13,9 @@ class Book {
     required this.title,
     required this.authors,
     required this.urlLink,
+    required this.description,
+    required this.categories,
     this.publisher,
-    this.categories,
-    this.description = "NA",
   });
 
   String getTitle() {
@@ -53,30 +53,38 @@ class Book {
       urlLink = 'images/leaf.png';
     }
 
-    String authors = "";
-    List<dynamic> authorsDynamicList = volumeInfo["authors"];
-    for (int i = 0; i < authorsDynamicList.length; i++) {
-      if (i == 0) {
-        authors = authorsDynamicList[0].toString();
-      } else if (i > 0 && i < (authorsDynamicList.length - 1)) {
-        authors += ", ${authorsDynamicList[i].toString()}";
-      } else if (i == (authorsDynamicList.length - 1)) {
-        authors += " and ${authorsDynamicList[i].toString()}";
+    String _formatDynamicListAsString(List<dynamic> dynamicList) {
+      String outputString = "";
+      for (int i = 0; i < dynamicList.length; i++) {
+        if (i == 0) {
+          outputString = dynamicList[0].toString();
+        } else if (i > 0 && i < (dynamicList.length - 1)) {
+          outputString += ", ${dynamicList[i].toString()}";
+        } else if (i == (dynamicList.length - 1)) {
+          outputString += " and ${dynamicList[i].toString()}";
+        }
       }
+      return outputString;
     }
-    // authorsDynamicType.forEach((author) {
-    //   print(author.toString());
-    //   authorsStringType.add(author.toString());
-    // });
 
-    // print(authorsStringType);
+    List<dynamic> authorsDynamicList = volumeInfo["authors"];
+    String authors = _formatDynamicListAsString(authorsDynamicList);
+
+    String categories = "NA";
+    if (volumeInfo.containsKey("categories")) {
+      List<dynamic> categoriesDynamicList = volumeInfo["categories"];
+      categories = _formatDynamicListAsString(categoriesDynamicList);
+    }
+
+    String description = volumeInfo['description'] ?? "NA";
 
     return Book(
         id: id,
         title: volumeInfo["title"],
         publisher: volumeInfo["publisher"],
         authors: authors,
-        categories: volumeInfo["categories"],
+        categories: categories,
+        description: description,
         urlLink: urlLink);
   }
 }

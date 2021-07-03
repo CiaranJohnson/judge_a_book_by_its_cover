@@ -23,22 +23,117 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(
           vertical: 20.0,
-          horizontal: 10.0,
+          horizontal: 20.0,
         ),
         child: Column(
           children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, BrowseScreen.id);
-              },
-              child: BookCover(
-                bookCoverURL: book.urlLink,
-                height: (MediaQuery.of(context).size.height * 2) / 10,
-                width: (MediaQuery.of(context).size.height * 1.5) / 10,
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                children: <Widget>[
+                  BookCover(
+                    bookCoverURL: book.urlLink,
+                    height: (MediaQuery.of(context).size.height * 2) / 10,
+                    width: (MediaQuery.of(context).size.height * 1.5) / 10,
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 6 / 10,
+                    height: MediaQuery.of(context).size.height * 2 / 10,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            text: 'Title: ',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: book.title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Authors: ',
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18.0,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: book.authors,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-            Text('Title: ${book.title}'),
-            Text('Authors: ${book.authors}'),
+            SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: RichText(
+                text: TextSpan(
+                  text: 'Categories: ',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: book.categories,
+                        style: TextStyle(fontWeight: FontWeight.normal)),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: RichText(
+                text: TextSpan(
+                  text: 'Description: ',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.0,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: book.description,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                        )),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

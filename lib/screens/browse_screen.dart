@@ -94,16 +94,19 @@ class _BrowseScreenState extends State<BrowseScreen> {
           ),
         ),
         actions: [
-          MaterialButton(
-            onPressed: () => Navigator.pushNamed(context, WishlistScreen.id),
-            color: Colors.blue,
-            textColor: Colors.white,
-            child: Icon(
-              Icons.bookmark,
-              size: 20.0,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: MaterialButton(
+              onPressed: () => Navigator.pushNamed(context, WishlistScreen.id),
+              color: Colors.blue,
+              textColor: Colors.white,
+              child: Icon(
+                Icons.bookmark,
+                size: 30.0,
+              ),
+              padding: EdgeInsets.all(2.0),
+              shape: CircleBorder(),
             ),
-            padding: EdgeInsets.all(2),
-            shape: CircleBorder(),
           ),
         ],
       ),
@@ -146,6 +149,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
               child: Text(
                 title,
                 maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 30.0,
                   color: Colors.blue,
@@ -158,6 +162,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
               child: Text(
                 "By $author",
                 maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 20.0, color: Colors.blue),
               ),
             ),
