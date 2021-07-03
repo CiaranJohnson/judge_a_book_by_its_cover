@@ -72,7 +72,13 @@ class _BrowseScreenState extends State<BrowseScreen> {
   }
 
   void _optionSelected(int index) {
-    print(index);
+    if (index == 0) {
+      print('Not interested in $title');
+      _nextBook();
+    } else if (index == 1) {
+      print('$title add to wishlist!');
+      _nextBook();
+    }
   }
 
   @override
@@ -103,7 +109,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: 20.0,
+          horizontal: 30.0,
           vertical: 10.0,
         ),
         child: Column(
@@ -132,18 +138,27 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 ),
               ),
             ),
-            Text(
-              title,
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: 30.0,
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                title,
+                maxLines: 2,
+                style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            Text(
-              "By $author",
-              maxLines: 2,
-              style: TextStyle(
-                fontSize: 20.0,
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Text(
+                "By $author",
+                maxLines: 2,
+                style: TextStyle(fontSize: 20.0, color: Colors.blue),
               ),
             ),
           ],
