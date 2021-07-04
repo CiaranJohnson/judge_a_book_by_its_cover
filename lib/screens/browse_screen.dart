@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:judge_a_book_by_its_cover/components/wishlist.dart';
+import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/constants.dart';
 import 'dart:convert';
 
@@ -28,10 +28,17 @@ class _BrowseScreenState extends State<BrowseScreen> {
   String bookCoverURL = 'images/leaf.png';
 
   String searchCategory = "adventure";
+  int index = 0;
 
   @override
   void initState() {
-    _makeGetRequest();
+    if (Provider.of<Booklists>(context, listen: false)
+            .currentBrowseList
+            .length ==
+        0) {
+      Provider.of<Booklists>(context, listen: false)
+          .changeSearchCategory(searchCategory);
+    }
     super.initState();
   }
 
@@ -41,139 +48,124 @@ class _BrowseScreenState extends State<BrowseScreen> {
     });
   }
 
-  void _makeGetRequest() async {
-    http.Response response = await http.get(Uri.parse(
-        'https://www.googleapis.com/books/v1/volumes?q=$searchCategory+subject&orderBy=newest'));
-    final responseBody = json.decode(response.body);
-    final List<dynamic> books = responseBody['items'];
+  // No longer updating after list length is less than 3
 
-    books.forEach((bookInfo) {
-      try {
-        Book book = Book.fromJson(bookInfo);
-        bookList.add(book);
-      } on Exception catch (_) {
-        print('Failed to create this book');
-      }
-    });
+  // void _updateUI() {
+  //   setState(() {
+  //     title = bookList[0].title;
+  //     author = bookList[0].authors;
+  //     bookCoverURL = bookList[0].urlLink;
+  //   });
+  // }
 
-    _updateUI();
-  }
-
-  void _updateUI() {
-    setState(() {
-      title = bookList[0].title;
-      author = bookList[0].authors;
-      bookCoverURL = bookList[0].urlLink;
-    });
-  }
-
-  void _nextBook() {
-    bookList.removeAt(0);
-    if (bookList.length < 3) {
-      _makeGetRequest();
-    } else {
-      _updateUI();
-    }
-  }
+  // void _nextBook() {
+  //   bookList.removeAt(0);
+  //   if (bookList.length < 3) {
+  //     _makeGetRequest();
+  //   } else {
+  //     _updateUI();
+  //   }
+  // }
 
   void _optionSelected(int index) {
     if (index == 0) {
     } else if (index == 1) {
       print('$title add to wishlist!');
-      _nextBook();
+      Provider.of<Booklists>(context, listen: false).browseNextBook();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: Image.asset('images/leaf.png'),
-        title: Text(
-          kAppBarTitle,
-          style: TextStyle(
-            color: Colors.blue,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MaterialButton(
-              onPressed: () => Navigator.pushNamed(context, WishlistScreen.id),
+    return Consumer<Booklists>(
+      builder: (context, booklists, child) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: Image.asset('images/leaf.png'),
+          title: Text(
+            kAppBarTitle,
+            style: TextStyle(
               color: Colors.blue,
-              textColor: Colors.white,
-              child: Icon(
-                Icons.bookmark,
-                size: 30.0,
-              ),
-              padding: EdgeInsets.all(2.0),
-              shape: CircleBorder(),
             ),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 30.0,
-          vertical: 10.0,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    BookInfoScreen.id,
-                    arguments: bookList[0],
-                  );
-                },
-                onPanUpdate: (details) {
-                  if (details.delta.dx > 0) {
-                    _nextBook();
-                  } else if (details.delta.dx < 0) {
-                    _nextBook();
-                  }
-                },
-                child: BookCover(
-                  bookCoverURL: bookCoverURL,
-                  height: (MediaQuery.of(context).size.height * 5) / 10,
-                  width: (MediaQuery.of(context).size.width * 7) / 10,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaterialButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, WishlistScreen.id),
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: Icon(
+                  Icons.bookmark,
+                  size: 30.0,
                 ),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 20,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Text(
-                "$kBy $author",
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 20.0, color: Colors.blue),
+                padding: EdgeInsets.all(2.0),
+                shape: CircleBorder(),
               ),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: Consumer<Wishlist>(
-        builder: (context, wishlist, child) => BottomNavigationBar(
+        body: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 30.0,
+            vertical: 10.0,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      BookInfoScreen.id,
+                      arguments: booklists.currentBook,
+                    );
+                  },
+                  // onPanUpdate: (details) {
+                  //   if (details.delta.dx > 0) {
+                  //     _nextBook();
+                  //   } else if (details.delta.dx < 0) {
+                  //     _nextBook();
+                  //   }
+                  // },
+                  child: BookCover(
+                    bookCoverURL: booklists.currentBook.urlLink,
+                    height: (MediaQuery.of(context).size.height * 5) / 10,
+                    width: (MediaQuery.of(context).size.width * 7) / 10,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 20,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  booklists.currentBook.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Text(
+                  "$kBy ${booklists.currentBook.authors}",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 20.0, color: Colors.blue),
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.red,
           unselectedItemColor: Colors.green,
           selectedFontSize: MediaQuery.of(context).size.height / 55,
@@ -196,12 +188,14 @@ class _BrowseScreenState extends State<BrowseScreen> {
           ],
           onTap: (index) {
             if (index == 0) {
-              print('Not interested in $title');
-              _nextBook();
+              print('Not interested in ${booklists.currentBook.title}');
+              booklists.browseNextBook();
+              // _nextBook();
             } else if (index == 1) {
-              wishlist.addBook(bookList[0]);
-              print('$title add to wishlist!');
-              _nextBook();
+              booklists.addBookToWishlist(booklists.currentBook);
+              print('${booklists.currentBook.title} add to wishlist!');
+              booklists.browseNextBook();
+              // _nextBook();
             }
           },
         ),

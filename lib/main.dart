@@ -5,12 +5,12 @@ import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'components/wishlist.dart';
+import 'components/booklists.dart';
 
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => Wishlist(),
+      create: (context) => Booklists(),
       child: MyApp(),
     ),
   );
