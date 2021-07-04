@@ -17,7 +17,11 @@ class BookCover extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return bookCoverURL == 'images/leaf.png'
-        ? Image.asset('images/leaf.png')
+        ? Image.asset(
+            'images/leaf.png',
+            height: height,
+            width: width,
+          )
         : Image.network(
             bookCoverURL,
             height: height,

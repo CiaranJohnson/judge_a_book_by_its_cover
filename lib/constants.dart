@@ -8,3 +8,12 @@ const String kDescriptionColon = "Description: ";
 const String kBy = "By";
 const String kAdd = "Add";
 const String kRemove = "Remove";
+
+const List<String> kCategoryTypes = <String>[
+  'Adventure',
+  'Cooking',
+  'Fiction',
+  'Non-Fiction',
+  'Poetry',
+  'Romantic'
+];
