@@ -9,6 +9,7 @@ import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/add_remove_nav_bar.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
+import 'package:judge_a_book_by_its_cover/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class BrowseScreen extends StatefulWidget {
@@ -37,63 +38,11 @@ class _BrowseScreenState extends State<BrowseScreen> {
   Widget build(BuildContext context) {
     return Consumer<Booklists>(
       builder: (context, booklists, child) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: Image.asset('images/leaf.png'),
-          title: Text(
-            kAppBarTitle,
-            style: TextStyle(
-              color: Colors.blue,
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 8.0,
-                bottom: 8.0,
-              ),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 17,
-                width: MediaQuery.of(context).size.height / 17,
-                child: MaterialButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, WishlistScreen.id),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  child: Icon(
-                    Icons.bookmark,
-                    size: 30.0,
-                  ),
-                  padding: EdgeInsets.all(2.0),
-                  shape: CircleBorder(),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 20.0,
-                top: 8.0,
-                right: 20.0,
-                bottom: 8.0,
-              ),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 17,
-                width: MediaQuery.of(context).size.height / 17,
-                child: MaterialButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, SearchScreen.id),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  child: Icon(
-                    Icons.search,
-                    size: 25.0,
-                  ),
-                  padding: EdgeInsets.all(2.0),
-                  shape: CircleBorder(),
-                ),
-              ),
-            ),
-          ],
+        appBar: MyAppBar(
+          leadingWidget: Image.asset('images/leaf.png'),
+          searchFunction: () => Navigator.pushNamed(context, SearchScreen.id),
+          wishlistFunction: () =>
+              Navigator.pushNamed(context, WishlistScreen.id),
         ),
         body: Padding(
           padding: EdgeInsets.symmetric(

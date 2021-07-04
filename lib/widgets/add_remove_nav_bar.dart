@@ -10,6 +10,8 @@ class AddRemoveNavBar extends StatelessWidget {
   late final Color _addColor;
   late final Color _removeColor;
 
+  // Clickable disables the Add and remove buttons as well as changes the text
+  // colour to grey. Ideally would change icons colour too.
   AddRemoveNavBar({required this.clickable}) {
     _addColor = clickable ? Colors.green : Colors.grey;
     _removeColor = clickable ? Colors.red : Colors.grey;

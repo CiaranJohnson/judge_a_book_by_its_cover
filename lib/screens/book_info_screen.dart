@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
+import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/add_remove_nav_bar.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
+import 'package:judge_a_book_by_its_cover/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
@@ -22,38 +24,17 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
   Widget build(BuildContext context) {
     return Consumer<Booklists>(
       builder: (context, booklists, child) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
+        appBar: MyAppBar(
+          leadingWidget: IconButton(
             icon: Icon(
-              Icons.arrow_back,
+              Icons.keyboard_arrow_left,
               color: Colors.blueGrey,
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text(
-            kAppBarTitle,
-            style: TextStyle(
-              color: Colors.blue,
-            ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, WishlistScreen.id),
-                color: Colors.blue,
-                textColor: Colors.white,
-                child: Icon(
-                  Icons.bookmark,
-                  size: 30.0,
-                ),
-                padding: EdgeInsets.all(2.0),
-                shape: CircleBorder(),
-              ),
-            ),
-          ],
+          wishlistFunction: () =>
+              Navigator.pushNamed(context, WishlistScreen.id),
+          searchFunction: () => Navigator.pushNamed(context, SearchScreen.id),
         ),
         body: Scrollbar(
           child: Padding(

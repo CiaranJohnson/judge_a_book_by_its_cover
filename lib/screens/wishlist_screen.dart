@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
+import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
+import 'package:judge_a_book_by_its_cover/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
@@ -62,8 +64,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget build(BuildContext context) {
     return Consumer<Booklists>(
       builder: (context, booklists, child) => Scaffold(
-        appBar: AppBar(
-          title: Text('Your Wishlist'),
+        appBar: MyAppBar(
+          leadingWidget: IconButton(
+            icon: Icon(
+              Icons.keyboard_arrow_left,
+              color: Colors.blueGrey,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          wishlistFunction: () => print("Already in Wishlist"),
+          searchFunction: () => Navigator.pushNamed(context, SearchScreen.id),
         ),
         body: Container(
           padding: EdgeInsets.symmetric(
