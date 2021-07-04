@@ -4,6 +4,7 @@ import 'package:judge_a_book_by_its_cover/components/book.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
+import 'package:judge_a_book_by_its_cover/widgets/add_remove_nav_bar.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
 import 'package:provider/provider.dart';
 
@@ -179,37 +180,8 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.red,
-          unselectedItemColor: Colors.green,
-          selectedFontSize: MediaQuery.of(context).size.height / 55,
-          unselectedFontSize: MediaQuery.of(context).size.height / 55,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.close_rounded,
-                color: Colors.red,
-              ),
-              label: kRemove,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.bookmark_add,
-                color: Colors.green,
-              ),
-              label: kAdd,
-            ),
-          ],
-          onTap: (index) {
-            if (index == 0) {
-              print('Not interested in ${booklists.currentBook.title}');
-              booklists.browseNextBook();
-            } else if (index == 1) {
-              booklists.addBookToWishlist(booklists.currentBook);
-              print('${booklists.currentBook.title} add to wishlist!');
-              booklists.browseNextBook();
-            }
-          },
+        bottomNavigationBar: AddRemoveNavBar(
+          clickable: true,
         ),
       ),
     );

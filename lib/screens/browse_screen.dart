@@ -5,7 +5,9 @@ import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/constants.dart';
 
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
+import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
+import 'package:judge_a_book_by_its_cover/widgets/add_remove_nav_bar.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
 import 'package:provider/provider.dart';
 
@@ -46,18 +48,49 @@ class _BrowseScreenState extends State<BrowseScreen> {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaterialButton(
-                onPressed: () =>
-                    Navigator.pushNamed(context, WishlistScreen.id),
-                color: Colors.blue,
-                textColor: Colors.white,
-                child: Icon(
-                  Icons.bookmark,
-                  size: 30.0,
+              padding: const EdgeInsets.only(
+                top: 8.0,
+                bottom: 8.0,
+              ),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 17,
+                width: MediaQuery.of(context).size.height / 17,
+                child: MaterialButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, WishlistScreen.id),
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  child: Icon(
+                    Icons.bookmark,
+                    size: 30.0,
+                  ),
+                  padding: EdgeInsets.all(2.0),
+                  shape: CircleBorder(),
                 ),
-                padding: EdgeInsets.all(2.0),
-                shape: CircleBorder(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 20.0,
+                top: 8.0,
+                right: 20.0,
+                bottom: 8.0,
+              ),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 17,
+                width: MediaQuery.of(context).size.height / 17,
+                child: MaterialButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, SearchScreen.id),
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  child: Icon(
+                    Icons.search,
+                    size: 25.0,
+                  ),
+                  padding: EdgeInsets.all(2.0),
+                  shape: CircleBorder(),
+                ),
               ),
             ),
           ],
@@ -108,39 +141,8 @@ class _BrowseScreenState extends State<BrowseScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: Colors.red,
-          unselectedItemColor: Colors.green,
-          selectedFontSize: MediaQuery.of(context).size.height / 55,
-          unselectedFontSize: MediaQuery.of(context).size.height / 55,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.close_rounded,
-                color: Colors.red,
-              ),
-              label: kRemove,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.bookmark_add,
-                color: Colors.green,
-              ),
-              label: kAdd,
-            ),
-          ],
-          onTap: (index) {
-            if (index == 0) {
-              print('Not interested in ${booklists.currentBook.title}');
-              booklists.browseNextBook();
-              // _nextBook();
-            } else if (index == 1) {
-              booklists.addBookToWishlist(booklists.currentBook);
-              print('${booklists.currentBook.title} add to wishlist!');
-              booklists.browseNextBook();
-              // _nextBook();
-            }
-          },
+        bottomNavigationBar: AddRemoveNavBar(
+          clickable: true,
         ),
       ),
     );
