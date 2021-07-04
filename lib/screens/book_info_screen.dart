@@ -19,8 +19,6 @@ class BookInfoScreen extends StatefulWidget {
 class _BookInfoScreenState extends State<BookInfoScreen> {
   @override
   Widget build(BuildContext context) {
-    final book = ModalRoute.of(context)!.settings.arguments as Book;
-
     return Consumer<Booklists>(
       builder: (context, booklists, child) => Scaffold(
         appBar: AppBar(

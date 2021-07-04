@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:judge_a_book_by_its_cover/components/book.dart';
 
-import 'package:http/http.dart' as http;
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/constants.dart';
-import 'dart:convert';
 
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
@@ -20,15 +17,7 @@ class BrowseScreen extends StatefulWidget {
 }
 
 class _BrowseScreenState extends State<BrowseScreen> {
-  int _counter = 0;
-  List<Book> bookList = [];
-
-  String title = "Title";
-  String author = "Author";
-  String bookCoverURL = 'images/leaf.png';
-
   String searchCategory = "adventure";
-  int index = 0;
 
   @override
   void initState() {
@@ -40,39 +29,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
           .changeSearchCategory(searchCategory);
     }
     super.initState();
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  // No longer updating after list length is less than 3
-
-  // void _updateUI() {
-  //   setState(() {
-  //     title = bookList[0].title;
-  //     author = bookList[0].authors;
-  //     bookCoverURL = bookList[0].urlLink;
-  //   });
-  // }
-
-  // void _nextBook() {
-  //   bookList.removeAt(0);
-  //   if (bookList.length < 3) {
-  //     _makeGetRequest();
-  //   } else {
-  //     _updateUI();
-  //   }
-  // }
-
-  void _optionSelected(int index) {
-    if (index == 0) {
-    } else if (index == 1) {
-      print('$title add to wishlist!');
-      Provider.of<Booklists>(context, listen: false).browseNextBook();
-    }
   }
 
   @override
@@ -116,20 +72,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
             children: <Widget>[
               Center(
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      BookInfoScreen.id,
-                      arguments: booklists.currentBook,
-                    );
-                  },
-                  // onPanUpdate: (details) {
-                  //   if (details.delta.dx > 0) {
-                  //     _nextBook();
-                  //   } else if (details.delta.dx < 0) {
-                  //     _nextBook();
-                  //   }
-                  // },
+                  onTap: () => Navigator.pushNamed(context, BookInfoScreen.id),
                   child: BookCover(
                     bookCoverURL: booklists.currentBook.urlLink,
                     height: (MediaQuery.of(context).size.height * 5) / 10,
