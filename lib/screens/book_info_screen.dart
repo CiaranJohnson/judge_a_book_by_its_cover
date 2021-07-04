@@ -100,7 +100,7 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                     ),
                                   ],
                                 ),
-                                maxLines: 4,
+                                maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               RichText(
@@ -120,6 +120,8 @@ class _BookInfoScreenState extends State<BookInfoScreen> {
                                     ),
                                   ],
                                 ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
