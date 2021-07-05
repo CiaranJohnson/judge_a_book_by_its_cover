@@ -4,6 +4,7 @@ import 'package:judge_a_book_by_its_cover/components/search_parameters.dart';
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
+import 'package:judge_a_book_by_its_cover/screens/splash_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: BrowseScreen.id,
       routes: {
+        SplashScreen.id: (context) => SplashScreen(),
         BrowseScreen.id: (context) => BrowseScreen(),
         BookInfoScreen.id: (context) => BookInfoScreen(),
         WishlistScreen.id: (context) => WishlistScreen(),
