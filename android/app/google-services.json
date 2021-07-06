@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "922053214975",
+    "project_id": "judge-a-book-ac558",
+    "storage_bucket": "judge-a-book-ac558.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922053214975:android:3e2e04e243d018f1e682ca",
+        "android_client_info": {
+          "package_name": "com.example.judge_a_book_by_its_cover"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922053214975-su0e04vukb4llhe5g3gfj3vq1ag2ikm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC05SHxOr6ju1hG0PGGU1zbH1OXj9gDByA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922053214975-su0e04vukb4llhe5g3gfj3vq1ag2ikm3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

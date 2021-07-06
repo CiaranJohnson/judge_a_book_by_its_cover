@@ -14,7 +14,7 @@ class Booklists extends ChangeNotifier {
   List<Book> _currentBrowseList = <Book>[];
 
   int _index = -10;
-  String _currentSearchCategory = "Adventure";
+  String _currentSearchCategory = "adventure";
   String _refinedSearchQuery = "";
 
   UnmodifiableListView<Book> get wishlist => UnmodifiableListView(_wishlist);
@@ -29,16 +29,19 @@ class Booklists extends ChangeNotifier {
       ? _currentBrowseList[0]
       : Book(
           id: 'N/A',
-          title: 'Title',
-          authors: 'Authors',
+          title: 'No Results, Try Search',
+          authors: 'Clicking the Search Button',
           urlLink: 'images/leaf.png',
           description: 'N/A',
           categories: 'N/A');
 
-  void browseNextBook() {
+  void browseNextBook() async {
     _currentBrowseList.removeAt(0);
     if (_currentBrowseList.length < 4) {
-      _updateBrowseList();
+      bool booksFound = await _updateBrowseList();
+      if (booksFound) {
+        notifyListeners();
+      }
     } else {
       // Update Browse Lift notifies listeners where as this does not
       notifyListeners();
@@ -73,18 +76,18 @@ class Booklists extends ChangeNotifier {
     }
   }
 
-  void initialiseBrowseList() {
-    if (_currentBrowseList.length == 0) {
-      newSearch(_currentSearchCategory, "");
-    }
+  Future<bool> initialiseBrowseList() async {
+    return await _updateBrowseList();
   }
 
-  void newSearch(String category, String searchQuery) {
+  void newSearch(String category, String searchQuery) async {
     _changeSearchCategory(category);
     _refinedSearchText(searchQuery);
     _currentBrowseList = [];
-    _updateBrowseList();
-    notifyListeners();
+    bool booksFound = await _updateBrowseList();
+    if (booksFound) {
+      notifyListeners();
+    }
   }
 
   void _changeSearchCategory(String category) {
@@ -113,28 +116,36 @@ class Booklists extends ChangeNotifier {
     }
   }
 
-  void _updateBrowseList() async {
+  Future<bool> _updateBrowseList() async {
     _index += 10;
     String searchString =
         'https://www.googleapis.com/books/v1/volumes?q=$_refinedSearchQuery$_currentSearchCategory&startIndex=${_index.toString()}&orderBy=relevance';
     print(searchString);
     http.Response response = await http.get(Uri.parse(searchString));
-    if (response.statusCode == 200) {
-      final responseBody = json.decode(response.body);
-      final List<dynamic> books = responseBody['items'];
-
-      books.forEach((bookInfo) {
-        try {
-          Book book = Book.fromJson(bookInfo);
-          addBookToBrowseList(book);
-          // bookList.add(book);
-        } on Exception catch (_) {
-          print('Failed to create this book');
-        }
-      });
-    } else {
+    if (response.statusCode != 200) {
       print('Status Code: ${response.statusCode}');
+      return false;
+    } else {
+      final responseBody = json.decode(response.body);
+      if (responseBody.containsKey('items')) {
+        final List<dynamic> books = responseBody['items'];
+
+        books.forEach((bookInfo) {
+          try {
+            if (bookInfo != null) {
+              Book book = Book.fromJson(bookInfo);
+              addBookToBrowseList(book);
+            }
+            // bookList.add(book);
+          } on Exception catch (_) {
+            print('Failed to create this book');
+          }
+        });
+      } else {
+        print("No items found during search");
+        return false;
+      }
     }
-    notifyListeners();
+    return true;
   }
 }

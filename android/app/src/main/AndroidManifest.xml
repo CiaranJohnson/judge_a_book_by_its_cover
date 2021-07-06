@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="judge_a_book_by_its_cover"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/launch_image">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
