@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
@@ -13,10 +14,13 @@ class Booklists extends ChangeNotifier {
   final Set<Book> _reviewedBooks = <Book>{};
   List<Book> _currentBrowseList = <Book>[];
 
-  int _index = -10;
+  // Search information
   String _currentSearchCategory = "adventure";
   String _refinedSearchQuery = "";
 
+  int _index = -10;
+
+  // Getter functions
   UnmodifiableListView<Book> get wishlist => UnmodifiableListView(_wishlist);
   UnmodifiableListView<Book> get reviewedList =>
       UnmodifiableListView(_reviewedBooks);
@@ -25,6 +29,8 @@ class Booklists extends ChangeNotifier {
 
   String get currentSearchCategory => _currentSearchCategory;
 
+  // If there is no book in the browse list, generate a book that hints the
+  // User to try a new search
   Book get currentBook => _currentBrowseList.length > 0
       ? _currentBrowseList[0]
       : Book(
@@ -35,8 +41,11 @@ class Booklists extends ChangeNotifier {
           description: 'N/A',
           categories: 'N/A');
 
+  // Function called when the user requests the next book in the browse list
   void browseNextBook() async {
     _currentBrowseList.removeAt(0);
+    // If there are less than four books in the browse list request new books
+    // from the API
     if (_currentBrowseList.length < 4) {
       bool booksFound = await _updateBrowseList();
       if (booksFound) {
@@ -48,6 +57,7 @@ class Booklists extends ChangeNotifier {
     }
   }
 
+  // Add book to the Browse list
   void addBookToBrowseList(Book book) {
     if (!_currentBrowseList.contains(book)) {
       _currentBrowseList.add(book);
@@ -55,6 +65,7 @@ class Booklists extends ChangeNotifier {
     }
   }
 
+  // Add book to reviewed list - REVIEWED_LIST not used
   void addBookToReviewed(Book book) {
     if (!_reviewedBooks.contains(book)) {
       _reviewedBooks.add(book);
@@ -62,6 +73,7 @@ class Booklists extends ChangeNotifier {
     }
   }
 
+  // Adds book to Wishlist
   void addBookToWishlist(Book book) {
     if (!_wishlist.contains(book)) {
       _wishlist.add(book);
@@ -69,6 +81,7 @@ class Booklists extends ChangeNotifier {
     }
   }
 
+  // Removes the book from the Wishlist
   void removeBookFromWishlist(Book book) {
     if (_wishlist.contains(book)) {
       _wishlist.remove(book);
@@ -76,10 +89,12 @@ class Booklists extends ChangeNotifier {
     }
   }
 
+  // The function called when initialising the browse list
   Future<bool> initialiseBrowseList() async {
     return await _updateBrowseList();
   }
 
+  // The function called when the user makes a new search
   void newSearch(String category, String searchQuery) async {
     _changeSearchCategory(category);
     _refinedSearchText(searchQuery);
@@ -90,49 +105,64 @@ class Booklists extends ChangeNotifier {
     }
   }
 
+  // Function used to update the category if it has been changed
   void _changeSearchCategory(String category) {
     if (kCategoryTypes.contains(category) &&
-        category != _currentSearchCategory) {
-      if (category == "N/A") {
-        _currentSearchCategory = "";
-      } else {
-        _currentSearchCategory = "subject:$category";
-      }
-      _index = -10;
+        "subject:$category" != _currentSearchCategory) {
+      _currentSearchCategory = "subject:$category";
     }
+    _index = -10;
   }
 
+  // Text must be formatted as lowercase and words seperated by +
+  // E.g. harry+potter+books+
   void _refinedSearchText(String searchQuery) {
-    List<String> queryList = searchQuery.split(RegExp(r'\W+'));
+    // Simplistic approach as doesn't handle edge cases such as contractions
+    List<String> queryList = searchQuery.toLowerCase().split(RegExp(r'\W+'));
     _refinedSearchQuery = "";
+
+    // Append + to each individual word
     queryList.forEach((element) {
       if (element.length > 0) {
         _refinedSearchQuery += "$element+";
       }
     });
-    print("Refining text: $_refinedSearchQuery");
+
+    // If they haven't changed the category and no text do not reset the index
     if (_refinedSearchQuery.length > 0) {
       _index = -10;
     }
   }
 
   Future<bool> _updateBrowseList() async {
+    // increase the index by 10 as the default number of books returned is 10
     _index += 10;
+
+    // format the request URL using categories and search terms
     String searchString =
         'https://www.googleapis.com/books/v1/volumes?q=$_refinedSearchQuery$_currentSearchCategory&startIndex=${_index.toString()}&orderBy=relevance';
     print(searchString);
+
+    // Make request to Google Books and wait for the response
     http.Response response = await http.get(Uri.parse(searchString));
+
+    // If the Status Code is not 200, the request was unsuccessful
     if (response.statusCode != 200) {
       print('Status Code: ${response.statusCode}');
       return false;
     } else {
+      // If the Status code is 200 get the response body
       final responseBody = json.decode(response.body);
+
+      // Ensure that the response contains items (Books)
       if (responseBody.containsKey('items')) {
         final List<dynamic> books = responseBody['items'];
 
+        // For all the books returned from the API
         books.forEach((bookInfo) {
           try {
             if (bookInfo != null) {
+              // Create book object and add it to the BrowseList
               Book book = Book.fromJson(bookInfo);
               addBookToBrowseList(book);
             }

@@ -1,14 +1,17 @@
 class Book {
-  // TODO: Think about changing these variables to private
+  // All variables are final, once they have been set they can't be changed
   final String id;
   final String title;
   final String authors;
-
-  final String? publisher;
   final String categories;
   final String description;
   final String urlLink;
 
+  // Don't do anything with publisher though this could be displayed in the
+  // book_info_screen as well
+  final String? publisher;
+
+  // Books Constructor, publisher is not used anywhere therefore not required
   Book({
     required this.id,
     required this.title,
@@ -19,23 +22,16 @@ class Book {
     this.publisher,
   });
 
-  String getTitle() {
-    return this.title;
-  }
-
-  String getAuthors() {
-    return this.authors;
-  }
-
   factory Book.fromJson(Map<String, dynamic> json) {
+    // Find the books unique ID
     String id = json["id"];
-    Map<String, dynamic> volumeInfo = json["volumeInfo"];
 
+    // volumeInfo stores all the info relating to book with ID = id
+    Map<String, dynamic> volumeInfo = json["volumeInfo"];
     print(volumeInfo);
 
-    String urlLink;
-
     // Find the best possible image url to request when showing the book cover
+    String urlLink = 'images/leaf.png';
     if (volumeInfo.containsKey("imageLinks")) {
       Map<String, dynamic> imageMap = volumeInfo["imageLinks"];
       if (imageMap.containsKey("large")) {
@@ -55,8 +51,11 @@ class Book {
       urlLink = 'images/leaf.png';
     }
 
+    // This function is used to to correctly format Authors & Category strings
     String _formatDynamicListAsString(List<dynamic> dynamicList) {
       String outputString = "";
+
+      // Format the string as Item_1, Item_2, ..., Item_N-1 and Item_N
       for (int i = 0; i < dynamicList.length; i++) {
         if (i == 0) {
           outputString = dynamicList[0].toString();
@@ -84,7 +83,7 @@ class Book {
     }
 
     // Extract the book's description if it has one
-    String description = volumeInfo['description'] ?? "NA";
+    String description = volumeInfo['description'] ?? "N/A";
 
     return Book(
         id: id,
