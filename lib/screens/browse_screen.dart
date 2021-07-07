@@ -33,20 +33,23 @@ class _BrowseScreenState extends State<BrowseScreen> {
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.symmetric(
-            horizontal: 30.0,
-            vertical: 10.0,
-          ),
+          // padding: EdgeInsets.symmetric(
+          //   horizontal: 30.0,
+          //   vertical: 10.0,
+          // ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Center(
-                child: GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, BookInfoScreen.id),
-                  child: BookCover(
-                    bookCoverURL: booklists.currentBook.urlLink,
-                    height: (MediaQuery.of(context).size.height * 5) / 10,
-                    width: (MediaQuery.of(context).size.width * 7) / 10,
+              Flexible(
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () =>
+                        Navigator.pushNamed(context, BookInfoScreen.id),
+                    child: BookCover(
+                      bookCoverURL: booklists.currentBook.urlLink,
+                      height: (MediaQuery.of(context).size.height * 5) / 10,
+                      width: (MediaQuery.of(context).size.width * 7) / 10,
+                    ),
                   ),
                 ),
               ),
@@ -54,6 +57,9 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 height: MediaQuery.of(context).size.height / 20,
               ),
               Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                ),
                 width: MediaQuery.of(context).size.width,
                 child: Text(
                   booklists.currentBook.title,
@@ -67,6 +73,11 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 ),
               ),
               Container(
+                padding: EdgeInsets.only(
+                  left: 30.0,
+                  right: 30.0,
+                  bottom: 40.0,
+                ),
                 width: MediaQuery.of(context).size.width,
                 child: Text(
                   "$kBy ${booklists.currentBook.authors}",
