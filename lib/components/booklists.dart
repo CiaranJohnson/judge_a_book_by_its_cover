@@ -14,6 +14,15 @@ class Booklists extends ChangeNotifier {
   final Set<Book> _reviewedBooks = <Book>{};
   List<Book> _currentBrowseList = <Book>[];
 
+  // Add a default book as I don't want it to be nullable
+  Book _wishlistBook = Book(
+      id: 'N/A',
+      title: 'No Wishlist Book Found',
+      authors: 'Try Adding a different book',
+      urlLink: 'images/leaf.png',
+      description: 'N/A',
+      categories: 'N/A');
+
   // Search information
   String _currentSearchCategory = "adventure";
   String _refinedSearchQuery = "";
@@ -40,6 +49,10 @@ class Booklists extends ChangeNotifier {
           urlLink: 'images/leaf.png',
           description: 'N/A',
           categories: 'N/A');
+
+  Book get getWishlistBook => _wishlistBook;
+
+  void setWishlistBook(Book book) => _wishlistBook = book;
 
   // Function called when the user requests the next book in the browse list
   void browseNextBook() async {

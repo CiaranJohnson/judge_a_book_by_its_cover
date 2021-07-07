@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
+import 'package:judge_a_book_by_its_cover/screens/wishlist_book_info_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/book_cover.dart';
 import 'package:judge_a_book_by_its_cover/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +19,10 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  List<ListTile> getWishlistTiles() {
-    List<Book> wishlist =
-        Provider.of<Booklists>(context, listen: true).wishlist;
+  List<ListTile> getWishlistTiles(Booklists booklist) {
+    // List<Book> wishlist =
+    //     Provider.of<Booklists>(context, listen: true).wishlist;
+    List<Book> wishlist = booklist.wishlist;
     List<ListTile> wishlistTiles = [];
     wishlist.forEach(
       (Book book) {
@@ -52,7 +54,13 @@ class _WishlistScreenState extends State<WishlistScreen> {
               overflow: TextOverflow.ellipsis,
             ),
             trailing: Icon(Icons.keyboard_arrow_right),
-            onTap: () => 'yo',
+            onTap: () {
+              booklist.setWishlistBook(book);
+              Navigator.pushNamed(
+                context,
+                WishlistBookInfoScreen.id,
+              );
+            },
           ),
         );
       },
@@ -80,8 +88,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
             vertical: 10.0,
           ),
           child: ListView(
-            children: getWishlistTiles().length > 0
-                ? getWishlistTiles()
+            children: getWishlistTiles(booklists).length > 0
+                ? getWishlistTiles(booklists)
                 : [
                     Container(
                       padding: EdgeInsets.all(40.0),

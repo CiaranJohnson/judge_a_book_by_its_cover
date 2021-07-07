@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'book.dart';
 
-// This might not work as I want to be able to view the books in the wishlist
-// Before adding new books to the list
+// [TODO] THIS CLASS IS NO LONGER IMPLEMENTED
 
 class BrowseBookList extends ChangeNotifier {
   final Set<Book> _browseBookList = <Book>{};

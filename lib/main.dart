@@ -8,6 +8,7 @@ import 'package:judge_a_book_by_its_cover/screens/registration_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/sign_up_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/splash_screen.dart';
+import 'package:judge_a_book_by_its_cover/screens/wishlist_book_info_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         BrowseScreen.id: (context) => BrowseScreen(),
         BookInfoScreen.id: (context) => BookInfoScreen(),
         WishlistScreen.id: (context) => WishlistScreen(),
+        WishlistBookInfoScreen.id: (context) => WishlistBookInfoScreen(),
         SearchScreen.id: (context) => SearchScreen(),
       },
     );
