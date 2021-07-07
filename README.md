@@ -17,6 +17,6 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Development and Testing
 
-This app was developed using the Pixel XL API 30 Android Emulator
+This app was developed using the Pixel XL API 30 Android Emulator \
 And was tested using Nexus 6 API 28 and iPhone 12 Pro Max - iOS 14.5
 
