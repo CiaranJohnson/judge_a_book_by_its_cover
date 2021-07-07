@@ -5,7 +5,10 @@ import 'package:judge_a_book_by_its_cover/components/book.dart';
 
 import '../constants.dart';
 
-// This Class should be incoporated
+// [NOTE] - This class was not incorporated, the corresponding functions that
+// are used in the app can be found in booklists.dart. Though it should be
+// refactored to here
+
 class ApiHandler {
   // Search information
   String _currentSearchCategory = "adventure";
