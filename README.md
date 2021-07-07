@@ -14,3 +14,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## Development and Testing
+
+This app was developed using the Pixel XL API 30 Android Emulator
+And was tested using Nexus 6 API 28 and iPhone 12 Pro Max - iOS 14.5
+
