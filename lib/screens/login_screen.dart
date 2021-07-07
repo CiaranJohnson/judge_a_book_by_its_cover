@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
+import 'package:judge_a_book_by_its_cover/constants.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/registration_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/registration_text_field.dart';
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: <Widget>[
                       RegistrationTextField(
-                        hintText: 'Enter email...',
+                        hintText: kEnterEmail,
                         isObscured: false,
                         controller: myEmailController,
                       ),
@@ -71,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       RegistrationTextField(
                         controller: myPasswordController,
-                        hintText: 'Enter password...',
+                        hintText: kEnterPassword,
                         isObscured: true,
                       ),
                     ],
@@ -92,14 +93,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Icons.keyboard_arrow_left,
                 color: Colors.blue,
               ),
-              label: "Back",
+              label: kBack,
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.login,
                 color: Colors.blue,
               ),
-              label: "Login",
+              label: kLogin,
             ),
           ],
           onTap: (index) async {

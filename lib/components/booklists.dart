@@ -16,12 +16,12 @@ class Booklists extends ChangeNotifier {
 
   // Add a default book as I don't want it to be nullable
   Book _wishlistBook = Book(
-      id: 'N/A',
+      id: kNotApplicable,
       title: 'No Wishlist Book Found',
       authors: 'Try Adding a different book',
       urlLink: 'images/leaf.png',
-      description: 'N/A',
-      categories: 'N/A');
+      description: kNotApplicable,
+      categories: kNotApplicable);
 
   // Search information
   String _currentSearchCategory = "adventure";
@@ -43,12 +43,12 @@ class Booklists extends ChangeNotifier {
   Book get currentBook => _currentBrowseList.length > 0
       ? _currentBrowseList[0]
       : Book(
-          id: 'N/A',
+          id: kNotApplicable,
           title: 'No Results, Try Search',
           authors: 'Clicking the Search Button',
           urlLink: 'images/leaf.png',
-          description: 'N/A',
-          categories: 'N/A');
+          description: kNotApplicable,
+          categories: kNotApplicable);
 
   Book get getWishlistBook => _wishlistBook;
 

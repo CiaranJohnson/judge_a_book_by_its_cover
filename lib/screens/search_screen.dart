@@ -124,7 +124,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      'Search by Categories',
+                      kSearchByCategories,
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -170,7 +170,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: Text(
-                      'Refined Search (Optional)',
+                      kRefineSearch,
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -183,7 +183,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        labelText: 'Enter text here...',
+                        labelText: kEnterTextHere,
                       ),
                     ),
                   ),
@@ -191,18 +191,6 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
           ),
-          // child: MyAppBar(
-          //   leadingWidget: IconButton(
-          //     icon: Icon(
-          //       Icons.keyboard_arrow_up,
-          //       color: Colors.blueGrey,
-          //     ),
-          //     onPressed: () => Navigator.of(context).pop(),
-          //   ),
-          //   wishlistFunction: () =>
-          //       Navigator.pushNamed(context, WishlistScreen.id),
-          //   searchFunction: () => print('Searching...'),
-          // ),
         ),
         bottomNavigationBar: AddRemoveNavBar(
           clickable: false,

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/book.dart';
@@ -98,8 +96,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       child: Center(
                         child: RichText(
                           text: TextSpan(
-                            text:
-                                'No books have been added to your Wishlist, click on the ',
+                            text: kNoBookWishlist,
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
@@ -107,7 +104,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                             ),
                             children: [
                               TextSpan(
-                                text: 'Add',
+                                text: kAdd,
                                 style: TextStyle(color: Colors.green),
                               ),
                               WidgetSpan(
@@ -117,7 +114,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                 ),
                               ),
                               TextSpan(
-                                  text: ' to add a book to your Wishlist!'),
+                                text: kAddToWishlist,
+                              ),
                             ],
                           ),
                         ),

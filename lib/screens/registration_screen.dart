@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:judge_a_book_by_its_cover/constants.dart';
 import 'package:judge_a_book_by_its_cover/screens/login_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/sign_up_screen.dart';
 
@@ -17,7 +18,7 @@ class RegistrationScreen extends StatelessWidget {
             Image.asset("images/leaf.png"),
             Container(
               child: Text(
-                'Judge a Book',
+                kAppBarTitle,
                 style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,
@@ -26,7 +27,7 @@ class RegistrationScreen extends StatelessWidget {
               ),
             ),
             Text(
-              "by it's Cover",
+              kAppSubTitle,
               style: TextStyle(
                 color: Colors.blue,
                 fontWeight: FontWeight.bold,
@@ -47,14 +48,14 @@ class RegistrationScreen extends StatelessWidget {
               Icons.person_add_alt_1,
               color: Colors.blue,
             ),
-            label: "Sign Up",
+            label: kSignUp,
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.login,
               color: Colors.blue,
             ),
-            label: "Login",
+            label: kLogin,
           ),
         ],
         onTap: (index) {

@@ -1,3 +1,5 @@
+import 'package:judge_a_book_by_its_cover/constants.dart';
+
 class Book {
   // All variables are final, once they have been set they can't be changed
   final String id;
@@ -74,7 +76,7 @@ class Book {
     String authors = _formatDynamicListAsString(authorsDynamicList);
 
     // Extract the books Categories from the
-    String categories = "N/A";
+    String categories = kNotApplicable;
     if (volumeInfo.containsKey("categories")) {
       // Correctly format the list of categories as a single string
       // e.g. Category 1, Category 2, ... and Category N
@@ -83,7 +85,7 @@ class Book {
     }
 
     // Extract the book's description if it has one
-    String description = volumeInfo['description'] ?? "N/A";
+    String description = volumeInfo['description'] ?? kNotApplicable;
 
     return Book(
         id: id,

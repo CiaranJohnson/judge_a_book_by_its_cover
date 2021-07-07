@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:judge_a_book_by_its_cover/screens/search_screen.dart';
-import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 
 import '../constants.dart';
 
@@ -76,6 +74,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(58);
 }

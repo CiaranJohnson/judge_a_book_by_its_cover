@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:judge_a_book_by_its_cover/components/book.dart';
-import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
 
 class BookCover extends StatelessWidget {
   final String bookCoverURL;
