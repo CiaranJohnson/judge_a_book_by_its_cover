@@ -13,7 +13,6 @@ class Book {
   // book_info_screen as well
   final String? publisher;
 
-  // Books Constructor, publisher is not used anywhere therefore not required
   Book({
     required this.id,
     required this.title,
@@ -25,6 +24,32 @@ class Book {
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {
+    /**
+     * Factory constructor for Book object
+     *
+     * This constructor creates a book object from the JSON provided by
+     * Google Books API: https://developers.google.com/books/docs/v1/using
+     *
+     * The relevant information is extracted and formatted appropriately for
+     * use in the App.
+     *
+     * :param json (Map<String, dynamic>): the json for the book returned by
+     *            Google Books API
+     * :param volumeInfo (Map<String, dynamic>): the Books information
+     *
+     *
+     * :param id (String): The Unique ID used to request the book from
+     *              Google Books API
+     * :param title (String): The title of the Book
+     * :param urlLink (String): The best possible picture of the book to
+     *              display to the user
+     * :param authors (String): The names of the authors correctly formatted
+     * :param categories (String): The categories the book belongs too
+     * :param description (String): The books description
+     * :param publisher (String): The publishers of the book
+     *
+     * :return (Book): the book object
+     */
     // Find the books unique ID
     String id = json["id"];
 

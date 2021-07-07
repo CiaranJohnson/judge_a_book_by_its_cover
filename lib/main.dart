@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:judge_a_book_by_its_cover/components/search_parameters.dart';
 import 'package:judge_a_book_by_its_cover/screens/book_info_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/login_screen.dart';
@@ -14,19 +13,10 @@ import 'components/booklists.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<Booklists>(create: (_) => Booklists()),
-        ChangeNotifierProvider<SearchParameters>(
-          create: (_) => SearchParameters(),
-        ),
-      ],
+    ChangeNotifierProvider(
+      create: (context) => Booklists(),
       child: MyApp(),
     ),
-    // ChangeNotifierProvider(
-    //   create: (context) => Booklists(),
-    //   child: MyApp(),
-    // ),
   );
 }
 

@@ -33,10 +33,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
         body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          // padding: EdgeInsets.symmetric(
-          //   horizontal: 30.0,
-          //   vertical: 10.0,
-          // ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

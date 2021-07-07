@@ -14,6 +14,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  // This class is very similar to LoginScreen and therefore should be
+  // refactored into a widget shared by the two.
+
   final myPasswordController = TextEditingController();
   final myEmailController = TextEditingController();
 
@@ -82,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Container(
                         child: Text(
-                          'Please enter a valid email address.',
+                          kValidEmailError,
                           style: TextStyle(
                             color: emailErrorColor,
                           ),
@@ -90,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Container(
                         child: Text(
-                          'Passwords must have 6 or more characters.',
+                          kValidPasswordError,
                           style: TextStyle(
                             color: passwordErrorColor,
                           ),

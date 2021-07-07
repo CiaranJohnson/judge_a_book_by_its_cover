@@ -5,6 +5,7 @@ import 'package:judge_a_book_by_its_cover/components/book.dart';
 
 import '../constants.dart';
 
+// This Class should be incoporated
 class ApiHandler {
   // Search information
   String _currentSearchCategory = "adventure";

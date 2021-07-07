@@ -18,8 +18,6 @@ class WishlistScreen extends StatefulWidget {
 
 class _WishlistScreenState extends State<WishlistScreen> {
   List<ListTile> getWishlistTiles(Booklists booklist) {
-    // List<Book> wishlist =
-    //     Provider.of<Booklists>(context, listen: true).wishlist;
     List<Book> wishlist = booklist.wishlist;
     List<ListTile> wishlistTiles = [];
     wishlist.forEach(

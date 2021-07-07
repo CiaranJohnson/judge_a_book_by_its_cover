@@ -15,14 +15,17 @@ const String kEnterPassword = 'Enter password...';
 const String kLogin = "Login";
 const String kSignUp = "Sign Up";
 const String kBack = "Back";
+const String kSearch = "Search";
 const String kSearchByCategories = 'Search by Categories';
 const String kRefineSearch = 'Refined Search (Optional)';
 const String kEnterTextHere = 'Enter text here...';
 const String kNoBookWishlist =
     'No books have been added to your Wishlist, click on the ';
-
 const String kAddToWishlist = ' to add a book to your Wishlist!';
+const String kValidEmailError = 'Please enter a valid email address.';
+const String kValidPasswordError = 'Passwords must have 6 or more characters.';
 
+// The search categories available to the user
 const List<String> kCategoryTypes = <String>[
   'Adventure',
   'Cooking',

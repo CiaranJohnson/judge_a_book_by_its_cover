@@ -4,7 +4,6 @@ import 'package:judge_a_book_by_its_cover/backend/email_password_checker.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
 import 'package:judge_a_book_by_its_cover/constants.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
-import 'package:judge_a_book_by_its_cover/screens/registration_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/registration_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +14,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // This class is very similar to SignUpScreen and therefore should be
+  // refactored into a widget shared by the two.
+
   final myPasswordController = TextEditingController();
   final myEmailController = TextEditingController();
 
@@ -26,7 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     myEmailController.addListener(_getInputText);
     myPasswordController.addListener(_getInputText);
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Container(
                         child: Text(
-                          'Please enter a valid email address.',
+                          kValidEmailError,
                           style: TextStyle(
                             color: emailErrorColor,
                           ),
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Container(
                         child: Text(
-                          'Passwords must have 6 or more characters.',
+                          kValidPasswordError,
                           style: TextStyle(
                             color: passwordErrorColor,
                           ),

@@ -53,7 +53,6 @@ class Booklists extends ChangeNotifier {
 
   void setWishlistBook(Book book) => _wishlistBook = book;
 
-  // Function called when the user requests the next book in the browse list
   void browseNextBook() async {
     /**
      * Get the next book in the Browse List
@@ -67,6 +66,8 @@ class Booklists extends ChangeNotifier {
      *
      * :param _currentBrowseList (List<Book>): list of all the books currently
      *              in the Browse List.
+     * :param booksFound (Bool): if new Books were added to the Browse List from
+     *              the request
      */
 
     _currentBrowseList.removeAt(0);
@@ -74,13 +75,8 @@ class Booklists extends ChangeNotifier {
     // from the API
     if (_currentBrowseList.length < 4) {
       bool booksFound = await _updateBrowseList();
-      if (booksFound) {
-        notifyListeners();
-      }
-    } else {
-      // Update Browse Lift notifies listeners where as this does not
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   void addBookToBrowseList(Book book) {
@@ -90,7 +86,7 @@ class Booklists extends ChangeNotifier {
      * Checks to see if the Browse List contains the book and then adds
      * the book to the Browse List if it is not already in it.
      *
-     * :param book (Book): the book to be addded to the wishlist
+     * :param book (Book): the book to be added to the wishlist
      * :param _currentBrowseList (List<Book>): list of all the books currently
      *              in the Browse List.
      */
@@ -145,6 +141,9 @@ class Booklists extends ChangeNotifier {
      *
      * This function is called once when the user Logs/Signs in and there are
      * no Books in the Browse List.
+     *
+     * :return (Future<bool>): if books where successfully added to the
+     *                      Browse List
      */
 
     return await _updateBrowseList();
@@ -164,6 +163,9 @@ class Booklists extends ChangeNotifier {
      *                    refine their search
      * :param _currentBrowseList  (List<Book>): list of all the books currently
      *              in the Browse List.
+     *
+     * :return (Future<bool>): whether there were books found during the new
+     *                  search
      */
 
     _changeSearchCategory(category);
@@ -189,6 +191,9 @@ class Booklists extends ChangeNotifier {
      * :param _currentSearchCategory (String): this is the users selected
      *                    option from the kCategoryTypes found in the
      *                    constants.dart file
+     *
+     *
+     * [Note] - This function should be moved to backend/api_handler.dart
      */
 
     if (kCategoryTypes.contains(category) &&
@@ -208,6 +213,8 @@ class Booklists extends ChangeNotifier {
      * :param _index (int): used to request the next books from the API
      * :param _refinedSearchQuery (String): terms inputted by the user to
      *                    refine their search
+     *
+     * [Note] - this function should be moved to backend/api_handler.dart
      */
 
     // Simplistic approach as doesn't handle edge cases such as contractions
@@ -246,6 +253,8 @@ class Booklists extends ChangeNotifier {
      *
      * :return (bool): indicate whether new books have been successfully added
      *                  to the Browse List.
+     *
+     * [Note] - this function should be moved to backend/api_handler.dart
      */
 
     _index += 10;
@@ -276,13 +285,8 @@ class Booklists extends ChangeNotifier {
             if (bookInfo != null) {
               // Create book object and add it to the BrowseList
               Book book = Book.fromJson(bookInfo);
-              try {
-                addBookToBrowseList(book);
-              } on Exception catch (_) {
-                print('Failed to create this book');
-              }
+              addBookToBrowseList(book);
             }
-            // bookList.add(book);
           } on Exception catch (_) {
             print('Failed to create this book');
           }

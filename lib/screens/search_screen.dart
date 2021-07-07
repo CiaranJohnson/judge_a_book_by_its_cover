@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:judge_a_book_by_its_cover/components/booklists.dart';
-import 'package:judge_a_book_by_its_cover/components/search_parameters.dart';
 import 'package:judge_a_book_by_its_cover/screens/browse_screen.dart';
 import 'package:judge_a_book_by_its_cover/screens/wishlist_screen.dart';
 import 'package:judge_a_book_by_its_cover/widgets/add_remove_nav_bar.dart';
-import 'package:judge_a_book_by_its_cover/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
@@ -195,7 +193,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ElevatedButton(
                     onPressed: () => performSearch(booklists),
                     child: Text(
-                      'Search',
+                      kSearch,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
