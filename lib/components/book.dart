@@ -72,8 +72,11 @@ class Book {
 
     // Correctly format the list of authors as a single string
     // e.g. Author 1, Author 2, ... and Author N
-    List<dynamic> authorsDynamicList = volumeInfo["authors"];
-    String authors = _formatDynamicListAsString(authorsDynamicList);
+    String authors = kNotApplicable;
+    if (volumeInfo.containsKey("authors")) {
+      List<dynamic> authorsDynamicList = volumeInfo["authors"];
+      authors = _formatDynamicListAsString(authorsDynamicList);
+    }
 
     // Extract the books Categories from the
     String categories = kNotApplicable;
@@ -85,12 +88,14 @@ class Book {
     }
 
     // Extract the book's description if it has one
+    String title = volumeInfo["title"] ?? kNotApplicable;
     String description = volumeInfo['description'] ?? kNotApplicable;
+    String publisher = volumeInfo["publisher"] ?? kNotApplicable;
 
     return Book(
         id: id,
-        title: volumeInfo["title"],
-        publisher: volumeInfo["publisher"],
+        title: title,
+        publisher: publisher,
         authors: authors,
         categories: categories,
         description: description,

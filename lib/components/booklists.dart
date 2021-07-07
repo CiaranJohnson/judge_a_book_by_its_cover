@@ -9,9 +9,10 @@ import 'package:http/http.dart' as http;
 import '../constants.dart';
 import 'book.dart';
 
+// This class handles all of the booklists and requesting data from the API
+// This class should be refactored to booklist and backend/api_handler
 class Booklists extends ChangeNotifier {
   final Set<Book> _wishlist = <Book>{};
-  final Set<Book> _reviewedBooks = <Book>{};
   List<Book> _currentBrowseList = <Book>[];
 
   // Add a default book as I don't want it to be nullable
@@ -24,15 +25,13 @@ class Booklists extends ChangeNotifier {
       categories: kNotApplicable);
 
   // Search information
-  String _currentSearchCategory = "adventure";
+  String _currentSearchCategory = "Cooking";
   String _refinedSearchQuery = "";
 
   int _index = -10;
 
   // Getter functions
   UnmodifiableListView<Book> get wishlist => UnmodifiableListView(_wishlist);
-  UnmodifiableListView<Book> get reviewedList =>
-      UnmodifiableListView(_reviewedBooks);
   UnmodifiableListView<Book> get currentBrowseList =>
       UnmodifiableListView(_currentBrowseList);
 
@@ -56,6 +55,20 @@ class Booklists extends ChangeNotifier {
 
   // Function called when the user requests the next book in the browse list
   void browseNextBook() async {
+    /**
+     * Get the next book in the Browse List
+     *
+     * Remove the current book (book at index 0) being displayed to the user
+     * from the Browse List, therefore there is a new current book (book at
+     * index 0 of Browse List).
+     *
+     * If there is less than 4 books in the Browse List request more books
+     * from Google Books API.
+     *
+     * :param _currentBrowseList (List<Book>): list of all the books currently
+     *              in the Browse List.
+     */
+
     _currentBrowseList.removeAt(0);
     // If there are less than four books in the browse list request new books
     // from the API
@@ -70,56 +83,114 @@ class Booklists extends ChangeNotifier {
     }
   }
 
-  // Add book to the Browse list
   void addBookToBrowseList(Book book) {
+    /**
+     * Adds the book to the Browse List
+     *
+     * Checks to see if the Browse List contains the book and then adds
+     * the book to the Browse List if it is not already in it.
+     *
+     * :param book (Book): the book to be addded to the wishlist
+     * :param _currentBrowseList (List<Book>): list of all the books currently
+     *              in the Browse List.
+     */
+
     if (!_currentBrowseList.contains(book)) {
       _currentBrowseList.add(book);
       notifyListeners();
     }
   }
 
-  // Add book to reviewed list - REVIEWED_LIST not used
-  void addBookToReviewed(Book book) {
-    if (!_reviewedBooks.contains(book)) {
-      _reviewedBooks.add(book);
-      notifyListeners();
-    }
-  }
-
-  // Adds book to Wishlist
   void addBookToWishlist(Book book) {
+    /**
+     * Adds the book to the Wishlist
+     *
+     * Checks to see if the wishlist contains the book and then adds
+     * the book to the wishlist if it is not already in it.
+     *
+     * :param book (Book): the book to be addded to the wishlist
+     * :param _wishlist (List<Book>): list of all the books in the user's
+     *                      wishlist
+     */
+
     if (!_wishlist.contains(book)) {
       _wishlist.add(book);
       notifyListeners();
     }
   }
 
-  // Removes the book from the Wishlist
   void removeBookFromWishlist(Book book) {
+    /**
+     * Removes the book from the Wishlist
+     *
+     * Checks to see if the wishlist contains the book and then removes
+     * the book from the wishlist if it is present.
+     *
+     * :param book (Book): the book to be removed from the wishlist
+     * :param _wishlist (List<Book>): list of all the books in the user's
+     *                      wishlist
+     *
+     * [Note] - this function is not used in the app currently
+     */
+
     if (_wishlist.contains(book)) {
       _wishlist.remove(book);
       notifyListeners();
     }
   }
 
-  // The function called when initialising the browse list
   Future<bool> initialiseBrowseList() async {
+    /**
+     * Initialises the Browse List
+     *
+     * This function is called once when the user Logs/Signs in and there are
+     * no Books in the Browse List.
+     */
+
     return await _updateBrowseList();
   }
 
-  // The function called when the user makes a new search
-  void newSearch(String category, String searchQuery) async {
+  Future<bool> newSearch(String category, String searchQuery) async {
+    /**
+     * Change the search parameters
+     *
+     * Function that changes the search parameters used to request books from
+     * Google Books API.
+     *
+     * :param category (String): this is the new users selected
+     *                    option must be one of the kCategoryTypes found in the
+     *                    constants.dart file
+     * :param searchQuery (String): terms inputted by the user to
+     *                    refine their search
+     * :param _currentBrowseList  (List<Book>): list of all the books currently
+     *              in the Browse List.
+     */
+
     _changeSearchCategory(category);
     _refinedSearchText(searchQuery);
+
     _currentBrowseList = [];
     bool booksFound = await _updateBrowseList();
     if (booksFound) {
       notifyListeners();
+      return true;
+    } else {
+      return false;
     }
   }
 
-  // Function used to update the category if it has been changed
   void _changeSearchCategory(String category) {
+    /**
+     * Update search category
+     *
+     * Function used to update the category if it has been changed
+     *
+     * :param _index (int): used to request the next books from the API
+     * :param _currentSearchCategory (String): this is the users selected
+     *                    option from the kCategoryTypes found in the
+     *                    constants.dart file
+     */
+
     if (kCategoryTypes.contains(category) &&
         "subject:$category" != _currentSearchCategory) {
       _currentSearchCategory = "subject:$category";
@@ -127,14 +198,23 @@ class Booklists extends ChangeNotifier {
     _index = -10;
   }
 
-  // Text must be formatted as lowercase and words seperated by +
-  // E.g. harry+potter+books+
   void _refinedSearchText(String searchQuery) {
+    /**
+     * Formatting the User's input search text
+     *
+     * In order to search Google Books API using terms, text must be formatted
+     * as lowercase and words seperated by +
+     *      E.g. harry+potter+books+
+     * :param _index (int): used to request the next books from the API
+     * :param _refinedSearchQuery (String): terms inputted by the user to
+     *                    refine their search
+     */
+
     // Simplistic approach as doesn't handle edge cases such as contractions
     List<String> queryList = searchQuery.toLowerCase().split(RegExp(r'\W+'));
-    _refinedSearchQuery = "";
 
     // Append + to each individual word
+    _refinedSearchQuery = "";
     queryList.forEach((element) {
       if (element.length > 0) {
         _refinedSearchQuery += "$element+";
@@ -148,7 +228,26 @@ class Booklists extends ChangeNotifier {
   }
 
   Future<bool> _updateBrowseList() async {
-    // increase the index by 10 as the default number of books returned is 10
+    /**
+     * Updates the Browse List
+     *
+     * This function requests data from Google Books API using the set
+     * category and provided terms used to refine the search.
+     *
+     * The API returns the 10 most relevant books to these search conditions.
+     * More can be found at: https://developers.google.com/books/docs/v1/using
+     *
+     * :param _index (int): used to request the next books from the API
+     * :param _refinedSearchQuery (String): terms inputted by the user to
+     *                    refine their search
+     * :param _currentSearchCategory (String): this is the users selected
+     *                    option from the kCategoryTypes found in the
+     *                    constants.dart file
+     *
+     * :return (bool): indicate whether new books have been successfully added
+     *                  to the Browse List.
+     */
+
     _index += 10;
 
     // format the request URL using categories and search terms
@@ -177,7 +276,11 @@ class Booklists extends ChangeNotifier {
             if (bookInfo != null) {
               // Create book object and add it to the BrowseList
               Book book = Book.fromJson(bookInfo);
-              addBookToBrowseList(book);
+              try {
+                addBookToBrowseList(book);
+              } on Exception catch (_) {
+                print('Failed to create this book');
+              }
             }
             // bookList.add(book);
           } on Exception catch (_) {

@@ -38,6 +38,14 @@ class _SearchScreenState extends State<SearchScreen> {
     searchQuery = _controller.text;
   }
 
+  void performSearch(Booklists booklists) async {
+    bool booksFound = await booklists.newSearch(
+      categoryValue,
+      searchQuery,
+    );
+    Navigator.pushNamed(context, BrowseScreen.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Booklists>(
@@ -94,13 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: MediaQuery.of(context).size.height / 17,
                   width: MediaQuery.of(context).size.height / 17,
                   child: MaterialButton(
-                    onPressed: () {
-                      booklists.newSearch(
-                        categoryValue,
-                        searchQuery,
-                      );
-                      Navigator.pushNamed(context, BrowseScreen.id);
-                    },
+                    onPressed: () => performSearch(booklists),
                     color: Colors.blue,
                     textColor: Colors.white,
                     child: Icon(
@@ -185,6 +187,16 @@ class _SearchScreenState extends State<SearchScreen> {
                       decoration: InputDecoration(
                         labelText: kEnterTextHere,
                       ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => performSearch(booklists),
+                    child: Text(
+                      'Search',
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                 ],
